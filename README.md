@@ -5,7 +5,7 @@ The output is an abstracted version of the input state-space (we call the return
 
 Example.
 
-Input State-space of the Timed Rebeca model (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.statespace">state-space file </a>
+Input state-space of the Timed Rebeca model (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.statespace">state-space file </a>
 
 Input lists of variables and label of transitions:  <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputVar.txt">variables</a> and <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputQmsg.txt">transitions</a>
 
