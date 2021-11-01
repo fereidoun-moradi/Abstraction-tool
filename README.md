@@ -5,10 +5,10 @@ The output is an abstracted version of the input state-space (we call the return
 
 Example.
 
-Input state-space of the Timed Rebeca model (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.statespace">state-space file </a>
+Input state-space of the Timed Rebeca model (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/RV-Example.statespace">State-space file</a>
 
-Input lists of variables and label of transitions:  <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputVar.txt">variables</a> and <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputQmsg.txt">transitions</a>
+Input lists of variables and label of transitions:  <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputVar.txt">Variables</a> and <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/inputQmsg.txt">Transitions</a>
 
-Abstracted verssion of the input state-space (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel.statespace">abstract state-space file </a>  
+Abstracted version of the input state-space (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel.jpg">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel.statespace">ABM</a>  
 
 
