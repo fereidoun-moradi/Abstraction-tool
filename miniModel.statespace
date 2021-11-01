@@ -1,0 +1,110 @@
+<transitionsystem>
+<state id="1_0" atomicpropositions="c_false,h_false," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">22</variable>
+			<variable name="Controler.window" type="int">0</variable>
+			<variable name="Controler.heater_on" type="boolean">false</variable>
+			<variable name="Controler.cooler_on" type="boolean">false</variable>
+		</statevariables>
+		<queue>
+			<message arrival="0" deadline="infinity" sender="controler">activate_c()</message>
+			<message arrival="0" deadline="infinity" sender="controler">getSense(22)</message>
+		</queue>
+		<now>0</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<state id="3_0" atomicpropositions="c_true,h_false," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">22</variable>
+			<variable name="Controler.window" type="int">0</variable>
+			<variable name="Controler.heater_on" type="boolean">false</variable>
+			<variable name="Controler.cooler_on" type="boolean">true</variable>
+		</statevariables>
+		<queue>
+			<message arrival="1" deadline="infinity" sender="controler">Cooling()</message>
+		</queue>
+		<now>0</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<state id="4_0" atomicpropositions="c_true,h_false," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">22</variable>
+			<variable name="Controler.window" type="int">0</variable>
+			<variable name="Controler.heater_on" type="boolean">false</variable>
+			<variable name="Controler.cooler_on" type="boolean">true</variable>
+		</statevariables>
+		<queue>
+			<message arrival="1" deadline="infinity" sender="controler">getSense(21)</message>
+			<message arrival="1" deadline="infinity" sender="controler">Cooling()</message>
+		</queue>
+		<now>1</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<state id="6_0" atomicpropositions="c_false,h_false," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">20</variable>
+			<variable name="Controler.window" type="int">1</variable>
+			<variable name="Controler.heater_on" type="boolean">false</variable>
+			<variable name="Controler.cooler_on" type="boolean">false</variable>
+		</statevariables>
+		<queue>
+			<message arrival="1" deadline="infinity" sender="controler">getSense(21)</message>
+			<message arrival="1" deadline="infinity" sender="controler">activate_h()</message>
+		</queue>
+		<now>1</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<state id="8_0" atomicpropositions="c_false,h_true," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">20</variable>
+			<variable name="Controler.window" type="int">0</variable>
+			<variable name="Controler.heater_on" type="boolean">true</variable>
+			<variable name="Controler.cooler_on" type="boolean">false</variable>
+		</statevariables>
+		<queue>
+			<message arrival="2" deadline="infinity" sender="controler">Heating()</message>
+		</queue>
+		<now>1</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<state id="9_0" atomicpropositions="c_false,h_true," >
+	<rebec name="controler">
+		<statevariables>
+			<variable name="Controler.temp" type="int">20</variable>
+			<variable name="Controler.window" type="int">0</variable>
+			<variable name="Controler.heater_on" type="boolean">true</variable>
+			<variable name="Controler.cooler_on" type="boolean">false</variable>
+		</statevariables>
+		<queue>
+			<message arrival="2" deadline="infinity" sender="controler">getSense(21)</message>
+			<message arrival="2" deadline="infinity" sender="controler">Heating()</message>
+		</queue>
+		<now>2</now>
+		<pc></pc>
+		<res></res>
+	</rebec>
+</state>
+<transition source="1_0" destination="1_0" executionTime="0" shift="0"> <messageserver sender="controler" owner="controler" title="GETSENSE"/></transition>
+<transition source="3_0" destination="4_0" executionTime="0" shift="0"> <time value="1"/></transition>
+<transition source="1_0" destination="3_0" executionTime="0" shift="0"> <messageserver sender="controler" owner="controler" title="ACTIVATE_C"/></transition>
+<transition source="4_0" destination="6_0" executionTime="1" shift="0"> <messageserver sender="controler" owner="controler" title="GETSENSE"/></transition>
+<transition source="8_0" destination="9_0" executionTime="1" shift="0"> <time value="1"/></transition>
+<transition source="6_0" destination="8_0" executionTime="1" shift="0"> <messageserver sender="controler" owner="controler" title="ACTIVATE_H"/></transition>
+<transition source="6_0" destination="6_0" executionTime="1" shift="0"> <messageserver sender="controler" owner="controler" title="GETSENSE"/></transition>
+<transition source="9_0" destination="6_0" executionTime="2" shift="1"> <messageserver sender="controler" owner="controler" title="GETSENSE"/></transition>
+</transitionsystem>
