@@ -1,0 +1,68 @@
+
+env double TempMax = 21;
+env double TempMin = 21;
+
+reactiveclass Controler(8){
+	statevars{
+		int temp;
+		int window;
+		boolean heater_on, cooler_on;
+	}
+	Controler(){
+		temp = 22; //initial value
+		window = 0; // closed
+		heater_on = false;
+		cooler_on = false;
+		self.getSense(temp);
+	}
+	
+	msgsrv getSense(int t){
+		heater_on = false;
+		cooler_on = false;
+		if (TempMin <= t && t <= TempMax) {
+					window = ?(1,0);
+					if(window == 1) {
+						temp = t - window;
+						self.activate_h(); //after(1);
+					} else {
+						self.getSense(temp);
+					}
+
+		} else if (TempMin > t ) {
+					self.activate_h(); //after(1);
+		} else if (TempMax < t ) { 
+					self.activate_c(); //after(1); 
+		}
+	}
+
+	msgsrv activate_h(){
+		self.Heating() after(1);
+		heater_on = true;
+		cooler_on = false;
+		window = 0;
+	}
+	msgsrv Heating(){
+		//heater_on = false;
+		//cooler_on = false;
+		temp = temp + 1;
+		self.getSense(temp);
+	}
+	
+	msgsrv activate_c(){
+		self.Cooling() after(1);
+		heater_on = false;
+		cooler_on = true;
+		window = 0;
+	}
+	msgsrv Cooling(){
+		//heater_on = false;
+		//cooler_on = false;
+		temp = temp - 1;
+		self.getSense(temp);
+	}
+	
+}	
+
+main{
+	Controler controler():();
+}

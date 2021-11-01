@@ -1,0 +1,25 @@
+digraph html {
+S1_0[label="S1_0: \n s_22 \n w_false \n c_false \n h_false"];
+S2_0[label="S2_0: \n s_22 \n w_false \n c_false \n h_false"];
+S1_0 -> S2_0[label="controler.GETSENSE \n @(0>>0)"];
+S3_0[label="S3_0: \n s_22 \n w_false \n c_true \n h_false"];
+S4_0[label="S4_0: \n s_22 \n w_false \n c_true \n h_false"];
+S3_0 -> S4_0[label="time +=1 \n @(0>>0)", style="bold", color="red"];
+S2_0 -> S3_0[label="controler.ACTIVATE_C \n @(0>>0)"];
+S5_0[label="S5_0: \n s_21 \n w_false \n c_true \n h_false"];
+S4_0 -> S5_0[label="controler.COOLING \n @(1>>0)"];
+S6_0[label="S6_0: \n s_20 \n w_true \n c_false \n h_false"];
+S5_0 -> S6_0[label="controler.GETSENSE \n @(1>>0)"];
+S7_0[label="S7_0: \n s_21 \n w_false \n c_false \n h_false"];
+S5_0 -> S7_0[label="controler.GETSENSE \n @(1>>0)"];
+S8_0[label="S8_0: \n s_20 \n w_false \n c_false \n h_true"];
+S9_0[label="S9_0: \n s_20 \n w_false \n c_false \n h_true"];
+S8_0 -> S9_0[label="time +=1 \n @(1>>0)", style="bold", color="red"];
+S6_0 -> S8_0[label="controler.ACTIVATE_H \n @(1>>0)"];
+S7_0 -> S6_0[label="controler.GETSENSE \n @(1>>0)"];
+S7_0 -> S7_0[label="controler.GETSENSE \n @(1>>0)"];
+S10_0[label="S10_0: \n s_21 \n w_false \n c_false \n h_true"];
+S9_0 -> S10_0[label="controler.HEATING \n @(2>>0)"];
+S10_0 -> S6_0[label="controler.GETSENSE \n @(2>>1)"];
+S10_0 -> S7_0[label="controler.GETSENSE \n @(2>>1)"];
+}

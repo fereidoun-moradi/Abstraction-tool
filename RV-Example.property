@@ -1,0 +1,21 @@
+property {
+	define {
+		s_22 = controler.temp == 22;
+		s_23 = controler.temp == 23;
+		s_24 = controler.temp == 24;
+		s_25 = controler.temp == 25;
+		s_26 = controler.temp == 26;
+		s_21 = controler.temp == 21;
+		s_20 = controler.temp == 20;
+		s_19 = controler.temp == 19;
+		s_18 = controler.temp == 18;
+
+		w_false= controler.window == 0;
+		w_true = controler.window == 1;
+		c_true = controler.cooler_on == true;
+		c_false = controler.cooler_on == false;
+		h_true = controler.heater_on == true;
+		h_false = controler.heater_on == false;
+	}
+
+}
