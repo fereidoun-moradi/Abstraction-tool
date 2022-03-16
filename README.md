@@ -9,6 +9,6 @@ Input state-space of the Timed Rebeca model (<a href="https://github.com/fereido
 
 List of variables:  <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/input.txt">Variables</a>
 
-Abstracted version of the input state-space (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel_tempSystem.png">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel.statespace">ABM</a>  
+Abstracted version of the input state-space (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel_tempSystem.png">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/miniModel_tempSystem.statespace">ABM</a>  
 
 
