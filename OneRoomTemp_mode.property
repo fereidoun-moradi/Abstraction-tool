@@ -1,0 +1,78 @@
+property {
+	define {
+		/*
+		temp_20 = room.temperature == 20;
+		temp_21 = room.temperature == 21;
+		temp_22 = room.temperature == 22;
+		temp_23 = room.temperature == 23;
+		temp_24 = room.temperature == 24;
+		temp_25 = room.temperature == 25;
+		temp_19 = room.temperature == 19;
+		temp_18 = room.temperature == 18;
+		*/
+	
+		
+		s_20 = controller.sensedValue == 20;
+		s_21 = controller.sensedValue == 21;
+		s_22 = controller.sensedValue == 22;
+		s_23 = controller.sensedValue == 23;
+		s_24 = controller.sensedValue == 24;
+		
+		s_25 = controller.sensedValue == 25;
+		s_26 = controller.sensedValue == 26;
+		s_27 = controller.sensedValue == 27;
+		s_28 = controller.sensedValue == 28;
+		
+		//mode_7 = controller.mode == 7;
+		//mode_1 = controller.mode == 1;
+		//mode_2 = controller.mode == 2;
+		//mode_3 = controller.mode == 3;
+		//mode_4 = controller.mode == 4;
+		//mode_5 = controller.mode == 5;
+		//mode_6 = controller.mode == 6;
+		
+		
+		//act_h = controller.heating == true;
+		//act_c = controller.cooling == true;
+		//act_s = controller.switchoff == true;
+		
+		//w_false = room.cold_air_blowing == 0;
+		//w_true = room.cold_air_blowing == 1;
+			/////w_cold = room.air_blowing == 1;
+			////w_close = room.air_blowing == 0;
+			/////w_heat = room.air_blowing == -1;
+		
+		//t_20 = room.temperature == 20;
+		//t_21 = room.temperature == 21;
+		//t_22 = room.temperature == 22;
+		//t_23 = room.temperature == 23;
+		//t_24 = room.temperature == 24;
+		
+		//heater_On = heater.heater_On == true;
+		//cooler_On = cooler.cooler_On == true;
+		//h_true = hc_unit.heater_on == true;
+		//h_false = hc_unit.heater_on == false;
+		//c_true = hc_unit.cooler_on == true;
+		//c_false = hc_unit.cooler_on == false;
+		
+		h_true = hc_unit.heater_on == true;
+		c_true = hc_unit.cooler_on == true;
+		sw = hc_unit.switch_off == true;
+		
+		
+		
+		//s = controller.sensedValue;
+		//ah = controller.heating;
+		//ac = controller.cooling;
+	}
+
+//CTL {
+		//prop1 : AG(s > 21 && s => AX(ac));
+	//}
+Assertion {
+	//Safetly: !((s >= 21) && (ac));
+}
+
+
+
+}

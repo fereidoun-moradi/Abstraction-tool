@@ -1,0 +1,169 @@
+env int desiredValue = 22; //initial value for the temperature, (21, 22 or 23)
+env int desiredMode = 1; //initial mode for the controller, (heater_on:1, switch_off:2 or cooler_on:3)
+env int timingInterval = 1;
+reactiveclass Controller(8){
+	knownrebecs{
+            HC_Unit hc_unit;
+            Sensor sensor;
+	}
+	statevars{
+		int sensedValue;
+		boolean heating;
+		boolean cooling;
+		int mode;
+	}
+	Controller(){ 
+		heating = false; cooling = false; 
+		sensedValue = desiredValue; 
+		mode = desiredMode; 
+	}
+	msgsrv getSense(int temp){
+            sensedValue = temp;
+            if (temp <= 23 && temp >= 21) {
+            	if (heating == true || cooling == true) {
+            		hc_unit.switchoff();
+            		heating = false;
+            		cooling = false;
+            		mode = desiredMode;
+            	} else {
+            	//hc_unit.switchoff();
+            	//nothing to do
+            	sensor.start();
+            	}
+            } else if (21 > temp) {
+            	if (heating == false) {
+            		mode = 2;
+            		hc_unit.activate_h(mode);
+            		heating = true;
+            	} else if (heating == true && mode == 2) {
+            		sensor.sense(sensedValue);
+            	} else {
+            		mode = 2;
+            		hc_unit.activate_h(mode);
+            	}
+            } else if (23 < temp) {
+            	if (heating == false) {
+            		mode = 3;
+            		hc_unit.activate_c(mode);
+            		cooling = true;
+            	} else if (cooling == true && mode == 3) {
+            		sensor.sense(sensedValue);
+            	} else {
+            		mode = 3;
+            		hc_unit.activate_c(mode);
+            	}
+            } 
+            /*
+            else if (25 < temp) {
+				if (mode == 5) {
+            		sensor.sense(sensedValue);
+            	} else {
+            		mode = 5;
+            		hc_unit.activate_c(mode);
+            	}
+            } else if (27 < temp) {
+				if (mode == 6) {
+            		sensor.sense(sensedValue);
+            	} else {
+            		mode = 6;
+            		hc_unit.activate_c(mode);
+            	}
+            } 
+            */
+    }       
+}
+reactiveclass Room(8){
+	knownrebecs{
+            Sensor sensor;
+	}
+	statevars{
+            int temperature;
+            int air_blowing;}
+	Room(){
+            //initial value
+            temperature = 22; 
+            air_blowing = 0; //closed
+		}		
+	msgsrv status() { 
+            //if (temperature == desiredValue) {
+                air_blowing = ?(1,0,-1);
+                temperature = temperature - air_blowing;
+                sensor.sense(temperature); 
+            //} else {
+            //	sensor.sense(temperature);
+            //}
+	}
+	//equation to regulate temperature 
+	msgsrv heating() { 
+		temperature = temperature + 1;
+		//sensor.sense(temperature);
+		self.status();
+	}
+	msgsrv cooling() { 
+		temperature = temperature - 1;
+		//sensor.sense(temperature);
+		self.status();
+	}
+}
+reactiveclass Sensor(8){	
+	knownrebecs{
+            Room room;
+            Controller controller;
+	}
+	Sensor(){
+            self.start();
+	}
+	msgsrv start(){
+            room.status();
+	}
+	msgsrv sense(int temp) {
+            controller.getSense(temp) after(timingInterval);
+            //delay(1);
+            //room.status(); 
+	}
+}
+
+reactiveclass HC_Unit(8){
+	knownrebecs{
+            Room room;
+	}
+	statevars{
+			boolean heater_on;
+			boolean cooler_on;
+			boolean switch_off;
+			int hc_mode;
+	}
+	HC_Unit(){ 
+			heater_on = false; 
+			cooler_on = false;
+			switch_off = true;
+			hc_mode = desiredMode;
+	}
+	msgsrv activate_h(int mode){ 
+			heater_on = true; 
+			cooler_on = false; 
+			switch_off = false;
+			hc_mode = mode;
+			room.heating();
+	}
+	msgsrv activate_c(int mode){ 
+			cooler_on = true; 
+			heater_on = false; 
+			switch_off = false;
+			hc_mode = mode;
+			room.cooling();
+	}
+	msgsrv switchoff(){ 
+			cooler_on = false; 
+			heater_on = false;
+			switch_off = true;
+			hc_mode = desiredMode;
+			room.status();
+	}
+}
+main{
+	Room room(sensor):();
+	Controller controller(hc_unit,sensor):(); 
+	Sensor sensor(room,controller):();
+	HC_Unit hc_unit(room):();
+}
