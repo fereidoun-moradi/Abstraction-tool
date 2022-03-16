@@ -1,0 +1,8 @@
+5
+"Controller.sensedValue"
+"HC_Unit.heater_on"
+"HC_Unit.cooler_on"
+"HC_Unit.switch_off"
+"now"
+OneRoomTemp_mode.statespace
+0
