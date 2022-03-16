@@ -5,7 +5,7 @@ The output is an abstracted version of the input state-space (we call the return
 
 # Example.
 
-Input state-space of a Timed Rebeca <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode.rebeca">model</a> (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode_diagram.png">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode.statespace">State-space file</a>
+Input state-space of a <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode.rebeca">Timed Rebeca</a> model (<a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode_diagram.png">state dransition diagram</a>): <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/OneRoomTemp_mode.statespace">State-space file</a>
 
 List of variables:  <a href="https://github.com/fereidoun-moradi/Abstraction-tool/blob/main/input.txt">Variables</a>
 
