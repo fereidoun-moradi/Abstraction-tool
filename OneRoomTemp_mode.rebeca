@@ -1,6 +1,6 @@
 env int desiredValue = 22; //initial value for the temperature, (21, 22 or 23)
 env int desiredMode = 1; //initial mode for the controller, (heater_on:1, switch_off:2 or cooler_on:3)
-env int timingInterval = 1;
+env int timingInterval = 10;
 reactiveclass Controller(8){
 	knownrebecs{
             HC_Unit hc_unit;
@@ -26,7 +26,6 @@ reactiveclass Controller(8){
             		cooling = false;
             		mode = desiredMode;
             	} else {
-            	//hc_unit.switchoff();
             	//nothing to do
             	sensor.start();
             	}
@@ -53,23 +52,6 @@ reactiveclass Controller(8){
             		hc_unit.activate_c(mode);
             	}
             } 
-            /*
-            else if (25 < temp) {
-				if (mode == 5) {
-            		sensor.sense(sensedValue);
-            	} else {
-            		mode = 5;
-            		hc_unit.activate_c(mode);
-            	}
-            } else if (27 < temp) {
-				if (mode == 6) {
-            		sensor.sense(sensedValue);
-            	} else {
-            		mode = 6;
-            		hc_unit.activate_c(mode);
-            	}
-            } 
-            */
     }       
 }
 reactiveclass Room(8){
@@ -82,26 +64,20 @@ reactiveclass Room(8){
 	Room(){
             //initial value
             temperature = 22; 
-            air_blowing = 0; //closed
+            air_blowing = 0; 
 		}		
 	msgsrv status() { 
-            //if (temperature == desiredValue) {
-                air_blowing = ?(1,0,-1);
-                temperature = temperature - air_blowing;
-                sensor.sense(temperature); 
-            //} else {
-            //	sensor.sense(temperature);
-            //}
+            air_blowing = ?(1,0,-1);
+            temperature = temperature - air_blowing;
+            sensor.sense(temperature); 
 	}
 	//equation to regulate temperature 
 	msgsrv heating() { 
 		temperature = temperature + 1;
-		//sensor.sense(temperature);
 		self.status();
 	}
 	msgsrv cooling() { 
 		temperature = temperature - 1;
-		//sensor.sense(temperature);
 		self.status();
 	}
 }
@@ -118,8 +94,6 @@ reactiveclass Sensor(8){
 	}
 	msgsrv sense(int temp) {
             controller.getSense(temp) after(timingInterval);
-            //delay(1);
-            //room.status(); 
 	}
 }
 
@@ -130,33 +104,28 @@ reactiveclass HC_Unit(8){
 	statevars{
 			boolean heater_on;
 			boolean cooler_on;
-			boolean switch_off;
 			int hc_mode;
 	}
 	HC_Unit(){ 
 			heater_on = false; 
 			cooler_on = false;
-			switch_off = true;
 			hc_mode = desiredMode;
 	}
 	msgsrv activate_h(int mode){ 
 			heater_on = true; 
 			cooler_on = false; 
-			switch_off = false;
 			hc_mode = mode;
 			room.heating();
 	}
 	msgsrv activate_c(int mode){ 
 			cooler_on = true; 
 			heater_on = false; 
-			switch_off = false;
 			hc_mode = mode;
 			room.cooling();
 	}
 	msgsrv switchoff(){ 
 			cooler_on = false; 
 			heater_on = false;
-			switch_off = true;
 			hc_mode = desiredMode;
 			room.status();
 	}
