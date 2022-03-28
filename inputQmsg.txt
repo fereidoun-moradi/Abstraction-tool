@@ -1,4 +1,0 @@
-3
-getSense()
-activate_h()
-activate_c()
