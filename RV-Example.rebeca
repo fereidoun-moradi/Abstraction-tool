@@ -6,59 +6,65 @@ reactiveclass Controler(8){
 	statevars{
 		int temp;
 		int window;
-		boolean heater_on, cooler_on;
+		boolean heater_on, cooler_on, switch_off;
 	}
 	Controler(){
-		temp = 22; //initial value
+		temp = 21; //initial value
 		window = 0; // closed
 		heater_on = false;
 		cooler_on = false;
+		switch_off = true;
 		self.getSense(temp);
 	}
 	
 	msgsrv getSense(int t){
-		heater_on = false;
-		cooler_on = false;
 		if (TempMin <= t && t <= TempMax) {
-					window = ?(1,0);
-					if(window == 1) {
+					window = ?(0,1);
+					if(window == 0 && switch_off) {
+						temp = t;
+						self.getSense(temp)  after(10);
+					} else if(window == 0) {
+						temp = t;
+						self.switch_off();
+					} else if(window == 1 && heater_on == false) {
 						temp = t - window;
-						self.activate_h(); //after(1);
+						self.activate_h();
 					} else {
-						self.getSense(temp);
+						temp = t;
+						self.getSense(temp) after(10);
 					}
-
 		} else if (TempMin > t ) {
-					self.activate_h(); //after(1);
+					self.activate_h();
 		} else if (TempMax < t ) { 
-					self.activate_c(); //after(1); 
-		}
+					self.activate_c();
+		}		
 	}
 
 	msgsrv activate_h(){
-		self.Heating() after(1);
+		self.Heating();
 		heater_on = true;
 		cooler_on = false;
-		window = 0;
+		switch_off = false;
 	}
 	msgsrv Heating(){
-		//heater_on = false;
-		//cooler_on = false;
-		temp = temp + 1;
-		self.getSense(temp);
+		self.getSense(temp + 1) after(10);
 	}
 	
 	msgsrv activate_c(){
-		self.Cooling() after(1);
+		self.Cooling();
 		heater_on = false;
 		cooler_on = true;
-		window = 0;
+		switch_off = false;
 	}
 	msgsrv Cooling(){
-		//heater_on = false;
-		//cooler_on = false;
-		temp = temp - 1;
-		self.getSense(temp);
+		self.getSense(temp - 1) after(10);
+	}
+	msgsrv switch_off(){
+		heater_on = false;
+		cooler_on = false;
+		switch_off = true;
+		temp = 21;
+		self.getSense(temp) after(10);
 	}
 	
 }	
