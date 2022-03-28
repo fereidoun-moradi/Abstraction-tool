@@ -12,10 +12,12 @@ property {
 		s_27 = controller.sensedValue == 27;
 		s_28 = controller.sensedValue == 28;
 		
+	
+		h_false = hc_unit.heater_on == false;
+		c_false = hc_unit.cooler_on == false;
 		
 		h_true = hc_unit.heater_on == true;
 		c_true = hc_unit.cooler_on == true;
-		sw = hc_unit.switch_off == true;
 		
 		
 }
