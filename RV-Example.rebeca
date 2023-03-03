@@ -1,74 +1,91 @@
 
-env double TempMax = 21;
-env double TempMin = 21;
-
-reactiveclass Controler(8){
+reactiveclass Controller(5){
+	knownrebecs{
+            HC_Unit hc_unit;
+	}
 	statevars{
-		int temp;
-		int window;
-		boolean heater_on, cooler_on, switch_off;
+		boolean heating_active;
+		int sensedValue;
 	}
-	Controler(){
-		temp = 21; //initial value
-		window = 0; // closed
-		heater_on = false;
-		cooler_on = false;
-		switch_off = true;
-		self.getSense(temp);
+	Controller(){ 
+		heating_active = false; 
+		sensedValue = 20;
 	}
-	
-	msgsrv getSense(int t){
-		if (TempMin <= t && t <= TempMax) {
-					window = ?(0,1);
-					if(window == 0 && switch_off) {
-						temp = t;
-						self.getSense(temp)  after(10);
-					} else if(window == 0) {
-						temp = t;
-						self.switch_off();
-					} else if(window == 1 && heater_on == false) {
-						temp = t - window;
-						self.activate_h();
-					} else {
-						temp = t;
-						self.getSense(temp) after(10);
-					}
-		} else if (TempMin > t ) {
-					self.activate_h();
-		} else if (TempMax < t ) { 
-					self.activate_c();
+	msgsrv getSense(int temp){
+            sensedValue = temp;
+            if (21 > temp && heating_active == false) { 
+            	hc_unit.activateh(); //heat 
+            	heating_active = true;
+            } else if (21 <= temp && heating_active == true) {
+            	hc_unit.switchoff(); //switch off the heating process 
+            	heating_active = false;
+            }         
+    }       
+}
+reactiveclass Room(5){
+	knownrebecs{
+            Sensor sensor;
+	}
+	statevars{
+            int temperature;
+            int outside_air_blowing;
+            int regulation;
+            }
+	Room(){
+            //initial value 
+            temperature = 21; 
+            regulation = 0;
+            outside_air_blowing = 0;
+            self.tempchange(); 
 		}		
-	}
-
-	msgsrv activate_h(){
-		self.Heating();
-		heater_on = true;
-		cooler_on = false;
-		switch_off = false;
-	}
-	msgsrv Heating(){
-		self.getSense(temp + 1) after(10);
+	msgsrv tempchange() { //enviroment effects the temperatue slowly, in each 10 units of time
+            	outside_air_blowing = ?(1,0);
+            	temperature = temperature - outside_air_blowing + regulation;
+            	sensor.getTemp(temperature);
+            	self.tempchange() after(10); 
 	}
 	
-	msgsrv activate_c(){
-		self.Cooling();
-		heater_on = false;
-		cooler_on = true;
-		switch_off = false;
+	//regulate temperature
+	msgsrv regulate(int v) { 
+		regulation = v;
 	}
-	msgsrv Cooling(){
-		self.getSense(temp - 1) after(10);
+}
+reactiveclass Sensor(5){	
+	knownrebecs{
+            Room room;
+            Controller controller;
 	}
-	msgsrv switch_off(){
-		heater_on = false;
-		cooler_on = false;
-		switch_off = true;
-		temp = 21;
-		self.getSense(temp) after(10);
+	msgsrv getTemp(int temp) {
+           controller.getSense(temp);
+   }
+}
+
+reactiveclass HC_Unit(5){
+	knownrebecs{
+            Room room;
+	}
+	statevars{
+			boolean heater_on;
+	}
+	HC_Unit(){ 
+			heater_on = false; 
+	}
+
+	msgsrv activateh(){ 
+			room.regulate(1);
+			heater_on = true;
 	}
 	
-}	
-
+	msgsrv switchoff(){ 
+			room.regulate(0);
+			heater_on = false;
+	}
+	
+	
+}
 main{
-	Controler controler():();
+	Room room(sensor):();
+	Controller controller(hc_unit):(); 
+	Sensor sensor(room,controller):();
+	HC_Unit hc_unit(room):();
 }
